@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from 'react';
-import { useAddress } from '@thirdweb-dev/react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
 import { Textarea } from './ui/textarea';
@@ -8,53 +7,57 @@ import MyContractABI from './assets/abi.json';
 import { ethers } from 'ethers';
 
 const CreateNFT = ({ contractAddress, onBackClick, onAddNFT }) => {
-  const address = useAddress();
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
   const [imageUrl, setImageUrl] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
-  const [methods, setMethods] = useState([]);
+  const [contract, setContract] = useState(null);
+  const [account, setAccount] = useState(null);
 
-  // Initialize provider and contract
-  const provider = new ethers.providers.JsonRpcProvider('https://rpc.sepolia.linea.build');
-  const contract = new ethers.Contract(contractAddress, MyContractABI, provider.getSigner());
+  // Memoize provider
+  const provider = useMemo(() => new ethers.providers.Web3Provider(window.ethereum, 'any'), []);
 
+  // Memoize contract
   useEffect(() => {
-    // List available methods from the contract
-    const fetchMethods = async () => {
-      const contractInterface = new ethers.utils.Interface(MyContractABI);
-      const methodNames = Object.keys(contractInterface.functions);
-      setMethods(methodNames);
+    if (contractAddress) {
+      const newContract = new ethers.Contract(contractAddress, MyContractABI, provider.getSigner());
+      setContract(newContract);
+    }
+  }, [contractAddress, provider]);
+
+  // Get the connected account
+  useEffect(() => {
+    const loadAccount = async () => {
+      try {
+        const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+        setAccount(accounts[0]);
+      } catch (error) {
+        console.error('Failed to connect MetaMask', error);
+        setError('Failed to connect MetaMask. Please try again.');
+      }
     };
 
-    fetchMethods();
-  }, [contract]);
+    loadAccount();
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!address) {
+    if (!account) {
       console.log('Please connect your wallet');
       return;
     }
-
-    const metadata = {
-      name,
-      description,
-      image: imageUrl,
-    };
 
     setLoading(true);
     setError('');
 
     try {
-      // Call the appropriate contract method
-      if (methods.includes('createNFT')) {
-        const tx = await contract.createNFT(metadata);
-        const receipt = await tx.wait(); // Wait for transaction to be mined
-        console.log(receipt);
-        
+      if (contract && typeof contract.safeMint === 'function') {
+        // Example minting parameters, adjust as per your contract's requirements
+        const tx = await contract.safeMint(account, 1); // Pass recipient address and tokenId
+        await tx.wait(); // Wait for transaction to be mined
+
         // Add the newly created NFT to the list
         onAddNFT({
           name,
@@ -68,7 +71,7 @@ const CreateNFT = ({ contractAddress, onBackClick, onAddNFT }) => {
         // Redirect to the main page after successful minting
         onBackClick();
       } else {
-        throw new Error('Method createNFT not found in the contract ABI');
+        throw new Error('safeMint method not found in the contract ABI');
       }
     } catch (error) {
       console.error('Failed to mint NFT', error);
