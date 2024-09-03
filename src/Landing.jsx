@@ -35,7 +35,7 @@ const Header = () => {
   );
 };
 
-const Landing = () => {
+const Landing = ({ contractAddress }) => {
   const [showCreateNFT, setShowCreateNFT] = useState(false);
   const [showExplore, setShowExplore] = useState(false);
   const [featuredNFTs, setFeaturedNFTs] = useState([
@@ -103,7 +103,6 @@ const Landing = () => {
                 <div className="flex flex-col items-center justify-center space-y-4 text-center">
                   <div className="space-y-2">
                     <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl">My NFT Collections</h2>
-                   
                   </div>
                 </div>
                 <div className="mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 py-12">
@@ -152,7 +151,6 @@ const Landing = () => {
                   </div>
                 </div>
                 <div className="mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 py-12">
-                  {/* Repeat Card component for each seller */}
                   <Card className="bg-background shadow-lg hover:shadow-xl transition-shadow">
                     <CardHeader>
                       <Avatar className="w-16 h-16">
@@ -160,21 +158,18 @@ const Landing = () => {
                         <AvatarFallback>JD</AvatarFallback>
                       </Avatar>
                     </CardHeader>
-                    <CardContent className="p-4">
-                      <h3 className="text-xl font-bold">John Doe</h3>
-                      <p className="text-muted-foreground">50 NFTs Sold</p>
+                    <CardContent>
+                      <h3 className="text-lg font-bold">John Doe</h3>
+                      <p className="text-muted-foreground">10,000 items sold</p>
                     </CardContent>
-                    <CardFooter className="flex justify-between items-center p-4">
-                      <Button variant="link">View Profile</Button>
-                    </CardFooter>
                   </Card>
                 </div>
               </div>
             </section>
           </>
         )}
-        {showCreateNFT && <CreateNFT addFeaturedNFT={addFeaturedNFT} />}
-        {showExplore && <Explore handleBackClick={handleBackClick} />}
+        {showCreateNFT && <CreateNFT contractAddress={contractAddress} onBackClick={handleBackClick} onAddNFT={addFeaturedNFT} />}
+        {showExplore && <Explore />}
       </main>
     </div>
   );
