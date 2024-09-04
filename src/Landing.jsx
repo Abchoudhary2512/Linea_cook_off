@@ -141,31 +141,62 @@ const Landing = ({ contractAddress }) => {
               </div>
             </section>
             <section className="w-full py-12 md:py-24 lg:py-32 bg-muted">
-              <div className="container px-4 md:px-6">
-                <div className="flex flex-col items-center justify-center space-y-4 text-center">
-                  <div className="space-y-2">
-                    <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl">Top Sellers</h2>
-                    <p className="max-w-[900px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
-                      Check out the top-selling NFT artists and creators on our platform.
-                    </p>
-                  </div>
-                </div>
-                <div className="mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 py-12">
-                  <Card className="bg-background shadow-lg hover:shadow-xl transition-shadow">
-                    <CardHeader>
-                      <Avatar className="w-16 h-16">
-                        <AvatarImage src="https://d3e0luujhwn38u.cloudfront.net/resized/LPfTxuqaoyAM5aT8THuD7GNKv44p2oLd7D_bGqgWJgU/s:400/plain/s3://typefully-user-avatars/1514941772224466947/0ee6fbfd854272fa027519cc2b7d98f8c75269cb" />
-                        <AvatarFallback>JD</AvatarFallback>
-                      </Avatar>
-                    </CardHeader>
-                    <CardContent>
-                      <h3 className="text-lg font-bold">John Doe</h3>
-                      <p className="text-muted-foreground">10,000 items sold</p>
-                    </CardContent>
-                  </Card>
-                </div>
-              </div>
-            </section>
+  <div className="container px-4 md:px-6">
+    <div className="flex flex-col items-center justify-center space-y-4 text-center">
+      <div className="space-y-2">
+        <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl">Top Sellers</h2>
+        <p className="max-w-[900px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
+          Check out the top-selling NFT artists and creators on our platform.
+        </p>
+      </div>
+    </div>
+    <div className="mx-auto grid grid-cols-1 md:grid-cols-4 gap-6 py-12">
+      <Card className="bg-background shadow-lg hover:shadow-xl transition-shadow">
+        <CardHeader>
+          <Avatar className="w-16 h-16">
+            <AvatarImage src="https://d3e0luujhwn38u.cloudfront.net/resized/LPfTxuqaoyAM5aT8THuD7GNKv44p2oLd7D_bGqgWJgU/s:400/plain/s3://typefully-user-avatars/1514941772224466947/0ee6fbfd854272fa027519cc2b7d98f8c75269cb" />
+            <AvatarFallback>JD</AvatarFallback>
+          </Avatar>
+        </CardHeader>
+        <CardContent>
+          <h3 className="text-lg font-bold">John Doe</h3>
+          <p className="text-muted-foreground">10,000 items sold</p>
+        </CardContent>
+      </Card>
+
+      {/* Repeat the Card component for each seller */}
+      
+      <Card className="bg-background shadow-lg hover:shadow-xl transition-shadow">
+        <CardHeader>
+          <Avatar className="w-16 h-16">
+            <AvatarImage src="https://th.bing.com/th/id/OIP.oN7-SJGHZorG8SfhQC5D7gHaFj?w=273&h=205&c=7&r=0&o=5&pid=1.7" />
+            <AvatarFallback>Alex </AvatarFallback>
+          </Avatar>
+        </CardHeader>
+        <CardContent>
+          <h3 className="text-lg font-bold">Alex</h3>
+          <p className="text-muted-foreground">2000 items sold</p>
+        </CardContent>
+      </Card>
+
+      <Card className="bg-background shadow-lg hover:shadow-xl transition-shadow">
+        <CardHeader>
+          <Avatar className="w-16 h-16">
+            <AvatarImage src="https://www2.deloitte.com/content/dam/insights/primary/full-bleed/Banner-US175620.png/jcr:content/renditions/cq5dam.web.1200.627.jpeg" />
+            <AvatarFallback>Neon Dev</AvatarFallback>
+          </Avatar>
+        </CardHeader>
+        <CardContent>
+          <h3 className="text-lg font-bold">Neon Dev</h3>
+          <p className="text-muted-foreground">1000 items sold</p>
+        </CardContent>
+      </Card>
+
+      
+    </div>
+  </div>
+</section>
+
           </>
         )}
         {showCreateNFT && <CreateNFT contractAddress={contractAddress} onBackClick={handleBackClick} onAddNFT={addFeaturedNFT} />}
