@@ -20,6 +20,9 @@ LineaMint is an innovative NFT marketplace built on the cutting-edge Linea block
 
 LineaMint aims to be the go-to destination for NFT enthusiasts by offering a trustworthy, creative, and accessible environment. Leveraging the Linea blockchain’s scalability and efficiency, we strive to support the growing NFT space and bring digital ownership into the mainstream.
 
+## Contract Address: '0x2B15063A6F8a11d18404C801F295b1d19dCC8574'
+
+
 ## Why LineaMint?
 
 - **Security & Transparency**: Powered by blockchain technology for secure and transparent transactions.
